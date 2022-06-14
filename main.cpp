@@ -2,8 +2,11 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <chrono>
+#include <ctime>
 
 #include "Password.h"
+#include "Encryption.h"
 
 using namespace std;
 
@@ -61,7 +64,7 @@ void addPass(){
     cout << "Enter name of the password" << endl;
     string name;
     cin >> name;
-    cout << "Enter category of the password, leave empty for 'none'" << endl;
+    cout << "Enter category of the password" << endl;
     string category;
     cin >> category;
     cout << "Enter login for the password" << endl;
@@ -183,6 +186,8 @@ void removeCategory(){
         removeCategory();
     }
     //TODO fix a bug with empty numbered line
+    //TODO add cancel and confirm;
+    //TODO fix deletion
 }
 
 void optionController(){
@@ -221,65 +226,51 @@ void optionController(){
     }
 }
 
-string encrypt(string s){
-    return s;
-}
+void writeToFile(string filename, time_t timeOfDecryption){
+    ofstream o(filename);
 
-string decrypt(string s){
-    return s;
-}
-
-void writeToFile(){
-    ofstream o("cats.txt");
-    o << "validation" << '|' ; //TODO
+    o << ctime(&timeOfDecryption);
+    o << "validation" << endl << '|' << endl ; //TODO
     for(auto c : Password::getCategories()){
-        o << encrypt(c) << ' ';
+        o << Encryption::encrypt(c) << ' ';
     }
-    o << '|';
+    o << endl << '|' << endl;
     for(auto p : Password::getPasswords()){
-        o << p.getName() << '/' << p.getCategory()<< '/' << p.getLogin() << '/' << p.getPass()<< ' ';
+        o << Encryption::encrypt(p.getName()) << endl
+        << Encryption::encrypt(p.getCategory())<< endl
+        << Encryption::encrypt(p.getLogin()) << endl
+        << Encryption::encrypt(p.getPass())<< endl << '/' << endl;
     }
-    o << endl;
     o.close();
 }
 
-void readFromFile(){
-    ifstream i("cats.txt");
+time_t readFromFile(string filename){
+    ifstream i(filename);
     string s;
     vector<string> raws;
-    vector<string> cats;
     vector<string> passes;
-    vector<Password> passwords;
-    while (getline(i, s, '|')) {
-        raws.push_back(decrypt(s));
-    }
-    for(auto r : raws){
-    }
-    stringstream rawsOne(raws.at(1));
-    while (rawsOne >> s){
-        cats.push_back(s);
+    while (getline(i, s)) {
+        raws.push_back(s);
     }
 
-    stringstream rawsTwo(raws.at(2));
-    while (rawsTwo >> s){
-        passes.push_back(s);
+    cout << "Timestamp of last decryption:" << raws.at(0) << endl;
+
+    stringstream rawCategories(raws.at(3));
+    while (rawCategories >> s){
+        Password::addCategory(Encryption::decrypt(s));
     }
 
-    for(auto p : passes){
-        vector<string> pFields;
-        stringstream ss(p);
-        while (getline(ss, s, '/')){
-            pFields.push_back(s);
-        }
-        passwords.push_back(Password(pFields.at(0), pFields.at(1), pFields.at(2), pFields.at(3)));
+    for(int in = 5; in < raws.size(); in+=5 ){
+        Password::addPassword(
+                Password(
+                        Encryption::decrypt(raws.at(in)),
+                        Encryption::decrypt(raws.at(in+1)),
+                        Encryption::decrypt(raws.at(in+2)),
+                        Encryption::decrypt(raws.at(in +3))
+                        )
+                );
     }
-
-    for(auto c : cats){
-        cout<< c << endl;
-    }
-    for(auto c : passwords){
-        cout<< c;
-    }
+    return chrono::system_clock::to_time_t(chrono::system_clock::now());
 }
 
 int main() {
@@ -294,24 +285,27 @@ int main() {
 //    cin >> masterPass;
 //    //TODO validate password
 //    cout << "timestamp" << endl; //TODO
-    Password::setPasswords({
-                                   Password("a", "johndoe", "aaaaaaaaaaaa"),
-                                   Password("b", "johndoe", "bbbbbbbbbbbbb"),
-                                   Password("c", "johndoe", "ccccccccccccc"),
-                                   Password("d", "johndoe", "dddddddddddd"),
-                                   Password("e", "johndoe", "eeeeeeeeeeeeee"),
-                                   Password("j", "johndoe", "jjjjjjjjjjjjjj"),
-                                   Password("jasd", "johndoe", "jjjjjjjsjjjjjjj")
-                           });
-    Password::addCategory("emails");
-    Password::addCategory("something");
-    Password::addCategory("business");
-    Password::addCategory("shopping");
-    Password::addCategory("edu");
-//    optionController();
-    writeToFile();
-    readFromFile();
+//    Password::setPasswords({
+//                                   Password("a", "johndoe", "aaaaaaaaaaaa"),
+//                                   Password("b", "johndoe", "bbbbbbbbbbbbb"),
+//                                   Password("c", "johndoe", "ccccccccccccc"),
+//                                   Password("d", "johndoe", "dddddddddddd"),
+//                                   Password("e", "johndoe", "eeeeeeeeeeeeee"),
+//                                   Password("j", "johndoe", "jjjjjjjjjjjjjj"),
+//                                   Password("jasd", "johndoe", "jjjjjjjsjjjjjjj")
+//                           });
+//    Password::addCategory("emails");
+//    Password::addCategory("something");
+//    Password::addCategory("business");
+//    Password::addCategory("shopping");
+//    Password::addCategory("edu");
+    string masterPassword = "hbou43fbo283u4bo8bf08o3491094r@$#!@fjoqyb";
+    Encryption::calcKey(masterPassword);
 
+    time_t timeOfDecryption = readFromFile("cats.txt");
+    optionController();
+
+    writeToFile("cats.txt", timeOfDecryption);
     return 0;
 }
 
