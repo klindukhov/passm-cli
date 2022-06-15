@@ -49,23 +49,35 @@ cmake_ninja_workdir = /home/bennyt/CLionProjects/passm-cli/cmake-build-debug/
 
 build cmake_object_order_depends_target_passm_cli: phony || CMakeFiles/passm_cli.dir
 
-build CMakeFiles/passm_cli.dir/main.cpp.o: CXX_COMPILER__passm_cli_Debug /home/bennyt/CLionProjects/passm-cli/main.cpp || cmake_object_order_depends_target_passm_cli
-  DEP_FILE = CMakeFiles/passm_cli.dir/main.cpp.o.d
+build CMakeFiles/passm_cli.dir/src/main.cpp.o: CXX_COMPILER__passm_cli_Debug /home/bennyt/CLionProjects/passm-cli/src/main.cpp || cmake_object_order_depends_target_passm_cli
+  DEP_FILE = CMakeFiles/passm_cli.dir/src/main.cpp.o.d
   FLAGS = -g -std=gnu++23
   OBJECT_DIR = CMakeFiles/passm_cli.dir
-  OBJECT_FILE_DIR = CMakeFiles/passm_cli.dir
+  OBJECT_FILE_DIR = CMakeFiles/passm_cli.dir/src
 
-build CMakeFiles/passm_cli.dir/Password.cpp.o: CXX_COMPILER__passm_cli_Debug /home/bennyt/CLionProjects/passm-cli/Password.cpp || cmake_object_order_depends_target_passm_cli
-  DEP_FILE = CMakeFiles/passm_cli.dir/Password.cpp.o.d
+build CMakeFiles/passm_cli.dir/src/Password.cpp.o: CXX_COMPILER__passm_cli_Debug /home/bennyt/CLionProjects/passm-cli/src/Password.cpp || cmake_object_order_depends_target_passm_cli
+  DEP_FILE = CMakeFiles/passm_cli.dir/src/Password.cpp.o.d
   FLAGS = -g -std=gnu++23
   OBJECT_DIR = CMakeFiles/passm_cli.dir
-  OBJECT_FILE_DIR = CMakeFiles/passm_cli.dir
+  OBJECT_FILE_DIR = CMakeFiles/passm_cli.dir/src
 
-build CMakeFiles/passm_cli.dir/Encryption.cpp.o: CXX_COMPILER__passm_cli_Debug /home/bennyt/CLionProjects/passm-cli/Encryption.cpp || cmake_object_order_depends_target_passm_cli
-  DEP_FILE = CMakeFiles/passm_cli.dir/Encryption.cpp.o.d
+build CMakeFiles/passm_cli.dir/src/Encryption.cpp.o: CXX_COMPILER__passm_cli_Debug /home/bennyt/CLionProjects/passm-cli/src/Encryption.cpp || cmake_object_order_depends_target_passm_cli
+  DEP_FILE = CMakeFiles/passm_cli.dir/src/Encryption.cpp.o.d
   FLAGS = -g -std=gnu++23
   OBJECT_DIR = CMakeFiles/passm_cli.dir
-  OBJECT_FILE_DIR = CMakeFiles/passm_cli.dir
+  OBJECT_FILE_DIR = CMakeFiles/passm_cli.dir/src
+
+build CMakeFiles/passm_cli.dir/src/CLI.cpp.o: CXX_COMPILER__passm_cli_Debug /home/bennyt/CLionProjects/passm-cli/src/CLI.cpp || cmake_object_order_depends_target_passm_cli
+  DEP_FILE = CMakeFiles/passm_cli.dir/src/CLI.cpp.o.d
+  FLAGS = -g -std=gnu++23
+  OBJECT_DIR = CMakeFiles/passm_cli.dir
+  OBJECT_FILE_DIR = CMakeFiles/passm_cli.dir/src
+
+build CMakeFiles/passm_cli.dir/src/File.cpp.o: CXX_COMPILER__passm_cli_Debug /home/bennyt/CLionProjects/passm-cli/src/File.cpp || cmake_object_order_depends_target_passm_cli
+  DEP_FILE = CMakeFiles/passm_cli.dir/src/File.cpp.o.d
+  FLAGS = -g -std=gnu++23
+  OBJECT_DIR = CMakeFiles/passm_cli.dir
+  OBJECT_FILE_DIR = CMakeFiles/passm_cli.dir/src
 
 
 # =============================================================================
@@ -75,7 +87,7 @@ build CMakeFiles/passm_cli.dir/Encryption.cpp.o: CXX_COMPILER__passm_cli_Debug /
 #############################################
 # Link the executable passm_cli
 
-build passm_cli: CXX_EXECUTABLE_LINKER__passm_cli_Debug CMakeFiles/passm_cli.dir/main.cpp.o CMakeFiles/passm_cli.dir/Password.cpp.o CMakeFiles/passm_cli.dir/Encryption.cpp.o
+build passm_cli: CXX_EXECUTABLE_LINKER__passm_cli_Debug CMakeFiles/passm_cli.dir/src/main.cpp.o CMakeFiles/passm_cli.dir/src/Password.cpp.o CMakeFiles/passm_cli.dir/src/Encryption.cpp.o CMakeFiles/passm_cli.dir/src/CLI.cpp.o CMakeFiles/passm_cli.dir/src/File.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/passm_cli.dir
   POST_BUILD = :

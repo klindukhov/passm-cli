@@ -3,4 +3,4 @@ project(passm_cli)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(passm_cli main.cpp Password.cpp Password.h Encryption.cpp Encryption.h)
+add_executable(passm_cli src/main.cpp src/Password.cpp include/passm_cli/Password.h src/Encryption.cpp include/passm_cli/Encryption.h src/CLI.cpp include/passm_cli/CLI.h src/File.cpp include/passm_cli/File.h)
